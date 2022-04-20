@@ -66,10 +66,6 @@ void ESPMqtt:: SubServ()
   Serial.println("Initialize subscribe...");
   for (int i = 0; i < this->sizelist ; i++)
   {
-      // char buff[100];
-      // sprintf(buff,"%d",atoi(list_topic[i]));
-      // Serial.println(buff);
-      // list_topic[i].toCharArray(msg,20);
       Serial.println(this->list_topic[i]);
       pinMode(this->list_pin[i],OUTPUT);
       client.subscribe(this->list_topic[i]);
@@ -95,62 +91,82 @@ void ESPMqtt :: CheckConn()
 
 void ESPMqtt :: SetOutPut(char *topic,char *message)
 {
+  for (int i = 0; i < this->sizelist ; i++)
+  {
+    // Serial.println(this->list_topic[i]);
+    if(strcmp(topic,list_topic[i]) == 0) 
+    {
+      if(strcmp(message,"on") == 0)
+      {
+        digitalWrite(this->list_pin[i], HIGH);
+        // client.publish("light1","1");
+        Serial.println(strcat(this->list_topic[i], ": On"));
+      }
+      else if(strcmp(message,"off") == 0)
+      {
+        digitalWrite(this->list_pin[i], LOW);
+        // client.publish("light1", "0");
+        Serial.println(strcat(this->list_topic[i],": Off"));
+      }
+    }
+
+  }
   //  Serial.println((String)list_topic[0]);
-    if(strcmp(topic,"light1") == 0) 
-    {
-      if(strcmp(message,"on") ==0){
-        digitalWrite(2, HIGH);
-        // client.publish("light1","1");
-        Serial.println("light1 : On");
-      }
-      else if(strcmp(message,"off") == 0){
-        digitalWrite(2, LOW);
-        // client.publish("light1", "0");
-        Serial.println("light1 : Off");
-      }
-    }
+    // if(strcmp(topic,"light1") == 0) 
+    // {
+    //   if(strcmp(message,"on") ==0){
+    //     digitalWrite(2, HIGH);
+    //     // client.publish("light1","1");
+    //     Serial.println("light1 : On");
+    //   }
+    //   else if(strcmp(message,"off") == 0){
+    //     digitalWrite(2, LOW);
+    //     // client.publish("light1", "0");
+    //     Serial.println("light1 : Off");
+    //   }
+    // }
 
-     if(strcmp(topic,"motor1") == 0) 
-    {
-      if(strcmp(message,"on") ==0){
-        digitalWrite(19, LOW);
-        // client.publish("light1","1");
-        Serial.println("motor1 : On");
-      }
-      else if(strcmp(message,"off") == 0){
-        digitalWrite(19, HIGH);
-        // client.publish("light1", "0");
-        Serial.println("motor1 : Off");
-      }
-    }
+    //  if(strcmp(topic,"motor1") == 0) 
+    // {
+    //   if(strcmp(message,"on") ==0){
+    //     digitalWrite(19, LOW);
+    //     // client.publish("light1","1");
+    //     Serial.println("motor1 : On");
+    //   }
+    //   else if(strcmp(message,"off") == 0){
+    //     digitalWrite(19, HIGH);
+    //     // client.publish("light1", "0");
+    //     Serial.println("motor1 : Off");
+    //   }
+    // }
 
-     if(strcmp(topic,"motor2") == 0) 
-    {
-      if(strcmp(message,"on") ==0){
-        digitalWrite(21, LOW);
-        // client.publish("light1","1");
-        Serial.println("motor2 : On");
-      }
-      else if(strcmp(message,"off") == 0){
-        digitalWrite(21, HIGH);
-        // client.publish("light1", "0");
-        Serial.println("motor2 : Off");
-      }
-    }
+    //  if(strcmp(topic,"motor2") == 0) 
+    // {
+    //   if(strcmp(message,"on") ==0){
+    //     digitalWrite(21, LOW);
+    //     // client.publish("light1","1");
+    //     Serial.println("motor2 : On");
+    //   }
+    //   else if(strcmp(message,"off") == 0){
+    //     digitalWrite(21, HIGH);
+    //     // client.publish("light1", "0");
+    //     Serial.println("motor2 : Off");
+    //   }
+    // }
 
-    if(strcmp(topic,"fog1") == 0) 
-    {
-      if(strcmp(message,"on") ==0){
-        digitalWrite(4, HIGH);
-        // client.publish("light1","1");
-        Serial.println("fog1 : On");
-      }
-      else if(strcmp(message,"off") == 0){
-        digitalWrite(4, LOW);
-        // client.publish("light1", "0");
-        Serial.println("fog1 : Off");
-      }
-    }
+    // if(strcmp(topic,"fog1") == 0) 
+    // {
+    //   if(strcmp(message,"on") ==0){
+    //     digitalWrite(4, HIGH);
+    //     // client.publish("light1","1");
+    //     Serial.println("fog1 : On");
+    //   }
+    //   else if(strcmp(message,"off") == 0){
+    //     digitalWrite(4, LOW);
+    //     // client.publish("light1", "0");
+    //     Serial.println("fog1 : Off");
+    //   }
+    // }
 
 }
 
@@ -161,42 +177,45 @@ void ESPMqtt::callback(char* topic, byte* payload, unsigned int length)
     Serial.print("] ");
     String message;
     char buff[10];
-    
+     
     for (int i = 0; i < length; i++) {
       message = message + (char)payload[i];
     }
     Serial.println(message);
     message.toCharArray(buff,10);
+    // Serial.println(sizelist);
+    // Serial.println(this->list_topic[0]);
+    // Serial.println(this->list_pin[0]);
+  // for (int i = 0; i < this->sizelist ; i++)
+  // {
 
-    Serial.println(list_topic[3]);
+  //   // Serial.println(this->list_topic[i]);
+  //   if(strcmp(topic,list_topic[i]) == 0) 
+  //   {
+  //     if(strcmp(buff,"on") == 0)
+  //     {
+  //       digitalWrite(this->list_pin[i], HIGH);
+  //       // client.publish("light1","1");
+  //       Serial.println(strcat(this->list_topic[i], ": On"));
+  //     }
+  //     else if(strcmp(buff,"off") == 0)
+  //     {
+  //       digitalWrite(this->list_pin[i], LOW);
+  //       // client.publish("light1", "0");
+  //       Serial.println(strcat(this->list_topic[i],": Off"));
+  //     }
+  //   }
 
     
+  // }
+  // memset(buff, 0, sizeof buff);
+  // message = "";
+  // buff = "";
+    
     SetOutPut(topic,buff);
+    memset(buff, 0, sizeof buff);
+    message = "";
 
-    // char buff[100];
-    // sprintf(buff,"address : %d",atoi(list_topic[0]));
-    // Serial.println(buff);
-
-    // Serial.println(this->list_topic[0][0]);
-    // Serial.println(this->list_topic[0][1]);
-    // Serial.println(this->list_topic[0][2]);
-    // Serial.println(this->list_topic[0][3]);
-    // Serial.println(this->list_pin[0]);
-    // Serial.println(strlen(topic));
-    // Serial.println(sizeof(topic));
-
-    // for (int j=0; j < this->sizelist ; j++)
-    // {
-    //   Serial.println(this->list_topic[j]);
-    //   if (strcmp(topic,this->list_topic[j]) == 0)
-    //   {
-    //       Serial.println(topic);
-    //       Serial.print(list_topic[j]);
-          // char msg[100];
-          // list_topic[i].toCharArray(msg,100);
-         
-    //   }
-    // }
 
 }
 
