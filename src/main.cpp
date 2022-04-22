@@ -11,7 +11,7 @@
 const char ssid[] = "myhotspot";
 const char password[] = "nutert0405";
 const char mqtt_clientId[] = "myesp32";
-const char mqtt_server[] = "192.168.43.179";
+const char mqtt_server[] = "192.168.43.22";
 const int port = 1883;
 const char mqtt_username[] = "admin";
 const char mqtt_password[] = "admin";

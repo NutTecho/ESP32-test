@@ -38,13 +38,8 @@ void ESPMqtt :: GetSub(int sizelist,char (*topic)[10],int* pin)
     this->list_pin = pin;
     this->list_topic = topic;
     this->sizelist = sizelist;
-    // for(int i = 0; i < this->sizelist ; i++)
-    // {
-    //   strcpy(this->list_topic[i],topic[i]);
-    // }
-  
-}
 
+}
 void ESPMqtt::ReConnec()
 {
       Serial.print("Attempting MQTT connection...");
@@ -80,7 +75,6 @@ void ESPMqtt::PubServ(int time_delay,char *topic,char *value)
         client.publish(topic,value);
       }
 }
-
 void ESPMqtt :: CheckConn()
 {
     while (!client.connected()) {
@@ -88,7 +82,6 @@ void ESPMqtt :: CheckConn()
     }
     client.loop();
 }
-
 void ESPMqtt :: SetOutPut(char *topic,char *message)
 {
   for (int i = 0; i < this->sizelist ; i++)
@@ -100,76 +93,19 @@ void ESPMqtt :: SetOutPut(char *topic,char *message)
       {
         digitalWrite(this->list_pin[i], HIGH);
         // client.publish("light1","1");
-        Serial.println(strcat(this->list_topic[i], ": On"));
+        Serial.println(String(this->list_topic[i]) + ": On");
       }
       else if(strcmp(message,"off") == 0)
       {
         digitalWrite(this->list_pin[i], LOW);
         // client.publish("light1", "0");
-        Serial.println(strcat(this->list_topic[i],": Off"));
+        Serial.println(String(this->list_topic[i]) + ": Off");
       }
     }
 
   }
-  //  Serial.println((String)list_topic[0]);
-    // if(strcmp(topic,"light1") == 0) 
-    // {
-    //   if(strcmp(message,"on") ==0){
-    //     digitalWrite(2, HIGH);
-    //     // client.publish("light1","1");
-    //     Serial.println("light1 : On");
-    //   }
-    //   else if(strcmp(message,"off") == 0){
-    //     digitalWrite(2, LOW);
-    //     // client.publish("light1", "0");
-    //     Serial.println("light1 : Off");
-    //   }
-    // }
-
-    //  if(strcmp(topic,"motor1") == 0) 
-    // {
-    //   if(strcmp(message,"on") ==0){
-    //     digitalWrite(19, LOW);
-    //     // client.publish("light1","1");
-    //     Serial.println("motor1 : On");
-    //   }
-    //   else if(strcmp(message,"off") == 0){
-    //     digitalWrite(19, HIGH);
-    //     // client.publish("light1", "0");
-    //     Serial.println("motor1 : Off");
-    //   }
-    // }
-
-    //  if(strcmp(topic,"motor2") == 0) 
-    // {
-    //   if(strcmp(message,"on") ==0){
-    //     digitalWrite(21, LOW);
-    //     // client.publish("light1","1");
-    //     Serial.println("motor2 : On");
-    //   }
-    //   else if(strcmp(message,"off") == 0){
-    //     digitalWrite(21, HIGH);
-    //     // client.publish("light1", "0");
-    //     Serial.println("motor2 : Off");
-    //   }
-    // }
-
-    // if(strcmp(topic,"fog1") == 0) 
-    // {
-    //   if(strcmp(message,"on") ==0){
-    //     digitalWrite(4, HIGH);
-    //     // client.publish("light1","1");
-    //     Serial.println("fog1 : On");
-    //   }
-    //   else if(strcmp(message,"off") == 0){
-    //     digitalWrite(4, LOW);
-    //     // client.publish("light1", "0");
-    //     Serial.println("fog1 : Off");
-    //   }
-    // }
-
+ 
 }
-
 void ESPMqtt::callback(char* topic, byte* payload, unsigned int length)
 {
     Serial.print("Message arrived [");
@@ -183,38 +119,10 @@ void ESPMqtt::callback(char* topic, byte* payload, unsigned int length)
     }
     Serial.println(message);
     message.toCharArray(buff,10);
-    // Serial.println(sizelist);
-    // Serial.println(this->list_topic[0]);
-    // Serial.println(this->list_pin[0]);
-  // for (int i = 0; i < this->sizelist ; i++)
-  // {
 
-  //   // Serial.println(this->list_topic[i]);
-  //   if(strcmp(topic,list_topic[i]) == 0) 
-  //   {
-  //     if(strcmp(buff,"on") == 0)
-  //     {
-  //       digitalWrite(this->list_pin[i], HIGH);
-  //       // client.publish("light1","1");
-  //       Serial.println(strcat(this->list_topic[i], ": On"));
-  //     }
-  //     else if(strcmp(buff,"off") == 0)
-  //     {
-  //       digitalWrite(this->list_pin[i], LOW);
-  //       // client.publish("light1", "0");
-  //       Serial.println(strcat(this->list_topic[i],": Off"));
-  //     }
-  //   }
-
-    
-  // }
-  // memset(buff, 0, sizeof buff);
-  // message = "";
-  // buff = "";
-    
     SetOutPut(topic,buff);
-    memset(buff, 0, sizeof buff);
-    message = "";
+    // memset(buff, 0, sizeof buff);
+    // message = "";
 
 
 }
