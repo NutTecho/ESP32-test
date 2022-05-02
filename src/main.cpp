@@ -36,7 +36,7 @@ void setup()
 {
     Serial.begin(115200);
     wificon.WifiInit();
-
+   
     // Serial.print("Connecting to ");
     // Serial.println(ssid);
 
